@@ -57,6 +57,14 @@ contract UsdcV2WhiteListTest is Test {
         vm.stopPrank();
     }
 
-
+    function testUserMintFromWhitelist() public {
+        upgrade();
+        vm.startPrank(USDC_ADMIN);
+        proxyUsdcV2.addUserToWhitelist(address(user2));
+        assertTrue(proxyUsdcV2.isUserInWhitelist(user2));
+        proxyUsdcV2.mint(address(user2), 100);
+        assertEq(proxyUsdcV2.balanceOf(user2), 100);
+        vm.stopPrank();
+    }
 
 }
